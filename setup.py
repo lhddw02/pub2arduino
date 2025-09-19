@@ -15,11 +15,13 @@ setup(
     zip_safe=True,
     maintainer='pi4bjazzy',
     maintainer_email='lhddw02@gmail.com',
-    description='TODO: Package description',
+    description='Serial Communication Test between Arduino and Pi ROS',
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'sender = pub2arduino_py.pub_func:main', 
+            'receiver = pub2arduino_py.sub_func:main', 
         ],
     },
 )

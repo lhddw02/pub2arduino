@@ -4,12 +4,13 @@ from rclpy.node import Node
 from std_msgs.msg import String
 
 import serial
+
 arduinoData = serial.Serial('/dev/ttyACM0' , 9600)
 
 class SerialNode(Node):
 
     def __init__(self):
-        super().__init__('pub2arduino_node')
+        super().__init__('led_node_ros')
         #self.publisher_ = self.create_publisher(String, 'topic', 10)
         #timer_period = 0.5  # seconds
         #self.timer = self.create_timer(timer_period, self.timer_callback)
@@ -18,7 +19,16 @@ class SerialNode(Node):
         self.subscription = self.create_subscription(
         	String,
         	'serial_communication',
-        	self.command
+        	self.command_callback,
+        	10
+        )
+        
+        self.get_logger().info("Serial node initialized")
+        
+        while True:
+        	myCmd = input('please input command: ')
+        	myCmd = myCmd + '\r'
+        	arduinoData.write(myCmd.encode())
 
     def timer_callback(self):
         msg = String()
